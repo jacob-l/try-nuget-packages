@@ -1,0 +1,18 @@
+name: Try Packages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  OpenSilver-Build:
+    runs-on: windows-latest
+    steps:
+      - uses: microsoft/setup-msbuild@v1.0.3
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Experiment
+        run: |
+          dotnet new console --name OctocatApp
+          dotnet pack --configuration Release
+          dotnet nuget push "bin/Release/OctocatApp.1.0.0.nupkg" --source "github"
