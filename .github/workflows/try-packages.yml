@@ -14,5 +14,5 @@ jobs:
       - name: Experiment
         run: |
           dotnet new console --name OctocatApp
-          dotnet pack OctocatApp\OctocatApp.csproj --configuration Release
+          dotnet pack OctocatApp\OctocatApp.csproj --configuration Release /p:RepositoryUrl=https://github.com/jacob-l/try-nuget-packages
           dotnet nuget push "OctocatApp\bin\Release\OctocatApp.1.0.0.nupkg" --source https://nuget.pkg.github.com/jacob-l/index.json
