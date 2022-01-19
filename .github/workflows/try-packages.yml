@@ -14,4 +14,4 @@ jobs:
       - name: Experiment
         run: |
           dotnet new console --name OctocatApp
-          dotnet pack --configuration Release
+          dotnet pack OctocatApp\OctocatApp.csproj --configuration Release
