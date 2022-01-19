@@ -15,4 +15,4 @@ jobs:
         run: |
           dotnet new console --name OctocatApp
           dotnet pack OctocatApp\OctocatApp.csproj --configuration Release
-          dotnet nuget push "OctocatApp\bin\Release\OctocatApp.1.0.0.nupkg"
+          dotnet nuget push "OctocatApp\bin\Release\OctocatApp.1.0.0.nupkg" --source https://nuget.pkg.github.com/jacob-l/index.json
