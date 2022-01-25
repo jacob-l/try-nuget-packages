@@ -1,19 +1,18 @@
-name: Try Packages
-on:
-  push:
-    branches:
-      - main
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Define env name'     
+        required: true
+        default: 'prod'
+      branch:
+        description: 'Define branch name'     
+        required: true
+        default: 'master'
 jobs:
-  OpenSilver-Build:
-    runs-on: windows-latest
+  printInputs:
+    runs-on: ubuntu-latest
     steps:
-      - uses: microsoft/setup-msbuild@v1.0.3
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-      - name: Experiment
-        run: |
-          dotnet new console --name OctocatApp
-          dotnet pack OctocatApp\OctocatApp.csproj --configuration Release /p:RepositoryUrl=https://github.com/jacob-l/try-nuget-packages
-          dotnet nuget add source --username jacob-l --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/jacob-l/index.json"
-          dotnet nuget push "OctocatApp\bin\Release\OctocatApp.1.0.0.nupkg" --source github
+    - run: |
+        echo "Env: ${{ github.event.inputs.environment }}" 
+        echo "Branch: ${{ github.event.inputs.branch }}"
