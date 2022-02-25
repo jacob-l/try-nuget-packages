@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - run: |
-        $version = ${{ github.event.inputs.branch }}
+        $version = "${{ github.event.inputs.branch }}"
         if ($version -eq "latest") {
           $version = nuget list -Source https://www.myget.org/F/opensilver/api/v3/index.json -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
         }
