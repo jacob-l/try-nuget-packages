@@ -13,12 +13,16 @@ jobs:
   printInputs:
     runs-on: windows-latest
     steps:
-    - run: |
+    - name: Set outputs
+      id: vars
+      run: |
         $version = "${{ github.event.inputs.branch }}"
         if ($version -eq "latest") {
           $version = nuget list -Source https://www.myget.org/F/opensilver/api/v3/index.json -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
         }
         echo "Version: $version"
-        echo ::set-env name=OPENSILVER_VERSION::$version
+        echo "::set-output name=OPENSILVER_VERSION::$version"
+        echo "::set-env name=OPENSILVER_VERSION::$version"
     - run: |
         echo "Branch: ${{ env.OPENSILVER_VERSION }}"
+        echo "Branch: ${{ steps.vars.outputs.OPENSILVER_VERSION }}"
