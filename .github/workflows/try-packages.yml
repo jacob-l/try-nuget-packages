@@ -22,7 +22,5 @@ jobs:
         }
         echo "Version: $version"
         echo "::set-output name=OPENSILVER_VERSION::$version"
-        echo "::set-env name=OPENSILVER_VERSION::$version"
     - run: |
-        echo "Branch: ${{ env.OPENSILVER_VERSION }}"
         echo "Branch: ${{ steps.vars.outputs.OPENSILVER_VERSION }}"
