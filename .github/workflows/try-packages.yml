@@ -11,8 +11,8 @@ on:
         default: 'master'
 jobs:
   printInputs:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - run: |
-        echo "Env: ${{ github.event.inputs.environment }}" 
-        echo "Branch: ${{ github.event.inputs.branch }}"
+        $version = nuget list -Source https://www.myget.org/F/opensilver/api/v3/index.json -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
+        echo "Version: $version"
