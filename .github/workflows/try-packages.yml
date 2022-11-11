@@ -29,8 +29,8 @@ jobs:
             $version = nuget list -Source $source -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
           }
           echo "Version: $version"
-          echo "opensilverVersion=$version"
-          echo "package-version=${{ env.next-release-version }}-${{ env.suffix }}-$(date +'%Y-%m-%d-%H%M%S')-${{ env.GITHUB_SHA_SHORT }}"
+          echo "opensilverVersion=$version" >> $env:GITHUB_OUTPUT
+          echo "package-version=${{ env.next-release-version }}-${{ env.suffix }}-$(date +'%Y-%m-%d-%H%M%S')-${{ env.GITHUB_SHA_SHORT }}" >> $env:GITHUB_OUTPUT
           echo "Version after: $version"
       - name: Print OpenSilver version
         run: echo "The selected version is ${{ steps.vars.outputs.opensilverVersion }}"
