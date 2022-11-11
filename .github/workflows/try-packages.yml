@@ -1,26 +1,31 @@
-on: 
+on:
+  push:
+    branches:
+      - master
+      - main
+      - develop
+      - chore/configure-cicd
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Define env name'     
-        required: true
-        default: 'prod'
-      branch:
-        description: 'OpenSilver Version'     
-        required: true
+      opensilver-version:
+        description: 'OpenSilver package version'
         default: 'latest'
+        required: true
 jobs:
   printInputs:
     runs-on: windows-latest
     steps:
-    - name: Set outputs
-      id: vars
-      run: |
-        $version = "${{ github.event.inputs.branch }}"
-        if ($version -eq "latest") {
-          $version = nuget list -Source https://www.myget.org/F/opensilver/api/v3/index.json -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
-        }
-        echo "Version: $version"
-        echo "::set-output name=OPENSILVER_VERSION::$version"
-    - run: |
-        echo "Branch: ${{ steps.vars.outputs.OPENSILVER_VERSION }}"
+      - name: Fill vars
+        id: vars
+        run: |
+          $version = "${{ github.event.inputs.opensilver-version }}"
+          $source = "${{ env.opensilver-package-source }}"
+          if ($version -eq "latest" -or $version -eq "") {
+            version = nuget list -Source $source -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
+          }
+          echo "Version: $version"
+          echo "opensilverVersion=$version" >> $GITHUB_OUTPUT
+          echo "package-version=${{ env.next-release-version }}-${{ env.suffix }}-$(date +'%Y-%m-%d-%H%M%S')-${{ env.GITHUB_SHA_SHORT }}" >> $GITHUB_OUTPUT
+          echo "Version after: $version"
+      - name: Print OpenSilver version
+        run: echo "The selected version is ${{ steps.vars.outputs.opensilverVersion }}"
