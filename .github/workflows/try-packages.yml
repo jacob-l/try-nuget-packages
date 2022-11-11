@@ -30,7 +30,7 @@ jobs:
           }
           echo "Version: $version"
           echo "opensilverVersion=$version"
-          echo "package-version=${{ env.next-release-version }}-${{ env.suffix }}-$(date +'%Y-%m-%d-%H%M%S')-${{ env.GITHUB_SHA_SHORT }}" >> $GITHUB_OUTPUT
+          echo "package-version=${{ env.next-release-version }}-${{ env.suffix }}-$(date +'%Y-%m-%d-%H%M%S')-${{ env.GITHUB_SHA_SHORT }}"
           echo "Version after: $version"
       - name: Print OpenSilver version
         run: echo "The selected version is ${{ steps.vars.outputs.opensilverVersion }}"
