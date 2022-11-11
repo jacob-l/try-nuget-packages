@@ -1,3 +1,8 @@
+env:
+  next-release-version: '1.2.0'
+  current-release-version: '1.1.0'
+  opensilver-package-source: 'https://www.myget.org/F/opensilver/api/v3/index.json'
+  suffix: 'preview'
 on:
   push:
     branches:
@@ -21,7 +26,7 @@ jobs:
           $version = "${{ github.event.inputs.opensilver-version }}"
           $source = "${{ env.opensilver-package-source }}"
           if ($version -eq "latest" -or $version -eq "") {
-            version = nuget list -Source $source -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
+            $version = nuget list -Source $source -Prerelease | ? { $_ -match "^OpenSilver\s+(.*)" } | ForEach { $_.split(" ")[1] }
           }
           echo "Version: $version"
           echo "opensilverVersion=$version" >> $GITHUB_OUTPUT
